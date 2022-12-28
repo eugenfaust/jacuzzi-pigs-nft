@@ -14,15 +14,28 @@ export default class Web3Service {
   static abi = FlyNFT.abi;
 
   // For testing purposes we use Goerli
-  static defaultChain = 56;
+  static defaultChain = Number(import.meta.env.VITE_DEFAULT_CHAIN);
 
   static currentProvider = Web3.givenProvider;
 
   static async buyNFT(account) {
     if (this.defaultChain !== (await this.getChainId())) {
       const result = await this.changeChain(this.defaultChain);
+      console.log(result);
       if (typeof result === 'string') {
-        return { status: false };
+        return {
+          status: false,
+          message: 'You need switch network chain before buy out NFT',
+          balance: 0,
+        };
+      }
+      const balance = await this.balanceOf(account);
+      if (balance > 0) {
+        return {
+          status: false,
+          message: 'You already have our NFT',
+          balance,
+        };
       }
     }
     let nftContract = this.getProvider().eth;
@@ -110,7 +123,7 @@ export default class Web3Service {
       return true;
     } catch (switchError) {
       if (switchError.code === 4001) {
-        return true;
+        return switchError.message;
       }
       const chain = chains.find((el) => el.id === chainId);
       try {

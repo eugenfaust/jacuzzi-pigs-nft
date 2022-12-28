@@ -1,6 +1,7 @@
 <script>
 import { useToast } from 'vue-toastification';
 import ConnectButton from './ConnectButton.vue';
+import ThemeSwitcher from './ThemeSwitcher.vue';
 import Pig from '../assets/pig.png';
 
 export default {
@@ -49,7 +50,7 @@ export default {
       this.prevScrollPos = curScrollPos;
     },
   },
-  components: { ConnectButton },
+  components: { ConnectButton, ThemeSwitcher },
 };
 </script>
 
@@ -62,6 +63,7 @@ export default {
         >Jacuzzi Pig</a
       >
     </div>
+    <ThemeSwitcher class="mr-2"/>
     <ConnectButton />
   </div>
 </template>

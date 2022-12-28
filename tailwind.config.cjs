@@ -13,6 +13,7 @@ module.exports = {
           primary: '#d5a8e3',
         },
       },
+      'dark',
     ],
   },
   plugins: [require('daisyui')],

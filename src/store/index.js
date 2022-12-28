@@ -8,11 +8,15 @@ const store = createStore({
       showConnectModal: false,
       address: undefined,
       chainId: 1,
+      theme: 'cupcake',
     };
   },
   mutations: {
     setDrawer(state, status) {
       state.showDrawer = status;
+    },
+    setTheme(state, theme) {
+      state.theme = theme;
     },
     setAddress(state, address) {
       state.address = address;

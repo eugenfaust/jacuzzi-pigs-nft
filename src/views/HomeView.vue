@@ -26,19 +26,28 @@ export default {
   watch: {
     async address(newAddress) {
       const result = await Web3.balanceOf(newAddress);
-      console.log(result);
       if (result > 0) {
         this.alreadyBuyed = true;
+        console.log('Buyed');
+      } else {
+        this.alreadyBuyed = false;
       }
     },
   },
   methods: {
     async buyNFT() {
+      if (!this.address) {
+        this.$store.commit('setConnectModal', true);
+        return;
+      }
       this.isBuying = true;
       try {
         const response = await Web3.buyNFT(this.address);
         if (!response.status) {
-          this.toast.error('Got error! Try again');
+          this.toast.error(response.message);
+          if (response.balance > 0) {
+            this.alreadyBuyed = true;
+          }
           this.isBuying = false;
           return;
         }
